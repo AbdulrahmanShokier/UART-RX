@@ -8,14 +8,14 @@ module FSM
     input start_glitch,            // start check
     input stop_error,              // stop check
     input [3:0] edge_count,        // edge bit counter
-    input [4:0] bit_count          // edge bit counter
-    output Deserializer_enable,    //deserializer
-    output data_valid,
-    output parity_check_enable,    // parity check 
-    output data_sampler_enable,    // data sampler
-    output start_check_enable,     // start check
-    output stop_check_enable,      // stop check
-    output edge_bit_enable
+    input [4:0] bit_count,         // edge bit counter
+    output reg Deserializer_enable,    //deserializer
+    output reg data_valid,
+    output reg parity_check_enable,    // parity check 
+    output reg data_sampler_enable,    // data sampler
+    output reg start_check_enable,     // start check
+    output reg stop_check_enable,      // stop check
+    output reg edge_bit_enable
 );
 
 parameter idle_state    = 1 ;
@@ -37,6 +37,14 @@ end
 
 always@(*)
 begin
+    Deserializer_enable  = 0;
+    data_valid           = 0;
+    parity_check_enable  = 0;
+    data_sampler_enable  = 0;
+    start_check_enable   = 0;
+    stop_check_enable    = 0;
+    edge_bit_enable      = 0;
+
     case(current_state)
     
     idle_state:
@@ -71,6 +79,15 @@ begin
             Deserializer_enable <=1;
             next_state<= data_state;
             parity_check_enable <=1;
+        end
+    end
+    data_state:
+
+
+
+
+    endcase
+
 
 
 
