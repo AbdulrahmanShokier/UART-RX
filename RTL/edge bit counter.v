@@ -1,5 +1,6 @@
 module Edge_Bit_Counter
 (
+    input asy_reset
     input RX_IN,
     input enable,
     input clk_based_on_prescale,
@@ -9,20 +10,26 @@ module Edge_Bit_Counter
 
 reg internal_enable;
 
-always@(posedge clk_based_on_prescale or enable)
+always@(posedge clk_based_on_prescale or enable or negedge asy_reset)
 begin
-    if(enable)
+    if(!asy_reset)
     begin
-        internal_enable=1;
-        bit_count=0;
+        bit_count      <=0;
+        edge_count     <=0;
+        internal_enable<=0;
+    end
+    else if(enable)
+    begin
+        internal_enable<=1;
+        bit_count<=0;       // in the start state this will happen  
     end
     else if(internal_enable)
     begin
-    edge_count++;
+    edge_count++;           // and in the next clk cycle the edges and the bits will start to be calculated  
         if(edge_count==4'b0111)
         begin
             edge_count<=0;
-            bit_count++;
+            bit_count++;    // so when bit_count reach 8 then the data bits will be finished
         end
 
     end

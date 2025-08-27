@@ -1,4 +1,5 @@
 module Data_Sampler (
+    input             asy_reset,
     input  wire [5:0] prescale,
     input  wire       RX_IN,
     input  wire       clk_based_on_prescale,
@@ -10,11 +11,17 @@ module Data_Sampler (
 
 reg [2:0] data_majority;
 
-always @(posedge clk_based_on_prescale) 
+always @(posedge clk_based_on_prescale or negedge asy_reset) 
 begin
-    sampled_data_valid <= 1'b0;   
+    sampled_data_valid <= 1'b0;  
+     if(!asy_reset)
+     begin
+        sampled_data_valid <= 0;
+        data_majority      <= 0;
+        sampled_data       <= 0;
+     end
 
-    if (data_sampler_enable) 
+    else if (data_sampler_enable) 
     begin
         case (prescale)
         6'd8: begin

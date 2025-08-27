@@ -1,5 +1,6 @@
 module parity_check 
 (
+    input             asy_reset,
     input  wire       clk_based_on_prescale,
     input  wire       parity_type,          // 0 = even parity, 1 = odd parity
     input  wire       sampled_data,
@@ -11,9 +12,16 @@ module parity_check
     reg XORed_data;
     reg parity_bit;
 
-    always @(posedge clk_based_on_prescale) 
+    always @(posedge clk_based_on_prescale or negedge asy_reset) 
     begin
-        if (parity_check_enable) 
+        if (!asy_reset)
+        begin
+            counter <= 0;
+            parity_bit <=0;
+            XORed_data   <= 0;
+            parity_error <= 0;
+        end
+        if (parity_check_enable && sampled_data_valid) 
         begin
             counter <= counter + 1;
 

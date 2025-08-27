@@ -12,7 +12,7 @@ always@(posedge clk_based_on_prescale or negedge asy_reset)
 begin
     if(!asy_reset)
         start_glitch<=0;
-    else if(start_check_enable)
+    else if(start_check_enable && sampled_data_valid)
     begin
         case (sampled_data)
             1'b0: start_glitch <= 1'b0; // start bit valid
