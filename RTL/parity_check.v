@@ -5,6 +5,7 @@ module parity_check
     input  wire       parity_type,          // 0 = even parity, 1 = odd parity
     input  wire       sampled_data,
     input  wire       parity_check_enable,
+    input             sampled_data_valid,
     output reg        parity_error
 );
 
@@ -32,7 +33,7 @@ module parity_check
 
             else if (counter == 8) 
             begin
-                parity_bit <= sampled_data;
+                parity_bit = sampled_data;
 
                 case (parity_type)
                     1'b0: parity_error <= (XORed_data != parity_bit); // Even parity

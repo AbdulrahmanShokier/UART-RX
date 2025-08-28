@@ -4,6 +4,7 @@ module start_check
     input  wire       sampled_data,
     input  wire       start_check_enable,
     input             asy_reset,
+    input             sampled_data_valid,
     output reg        start_glitch
 );
 

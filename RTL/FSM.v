@@ -7,7 +7,7 @@ module FSM
     input parity_error,                 // parity check
     input start_glitch,                 // start check
     input stop_error,                   // stop check
-    input [3:0] edge_count,             // edge bit counter
+    input [5:0] edge_count,             // edge bit counter
     input [4:0] bit_count,              // edge bit counter
     output reg Deserializer_enable,     //deserializer
     output reg data_valid,

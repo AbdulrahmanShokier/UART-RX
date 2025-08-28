@@ -1,6 +1,6 @@
 module Edge_Bit_Counter
 (
-    input asy_reset
+    input asy_reset,
     input RX_IN,
     input edge_bit_enable,
     input clk_based_on_prescale,
