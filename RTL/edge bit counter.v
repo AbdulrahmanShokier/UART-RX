@@ -2,7 +2,7 @@ module Edge_Bit_Counter
 (
     input asy_reset
     input RX_IN,
-    input enable,
+    input edge_bit_enable,
     input clk_based_on_prescale,
     output reg [3:0] edge_count,
     output reg [4:0] bit_count
@@ -10,7 +10,7 @@ module Edge_Bit_Counter
 
 reg internal_enable;
 
-always@(posedge clk_based_on_prescale or enable or negedge asy_reset)
+always@(posedge clk_based_on_prescale or edge_bit_enable or negedge asy_reset)
 begin
     if(!asy_reset)
     begin
@@ -18,7 +18,7 @@ begin
         edge_count     <=0;
         internal_enable<=0;
     end
-    else if(enable)
+    else if(edge_bit_enable)
     begin
         internal_enable<=1;
         bit_count<=0;       // in the start state this will happen  
