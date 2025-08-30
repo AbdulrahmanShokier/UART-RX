@@ -11,14 +11,12 @@ module parity_check
 
     reg [3:0] counter;
     reg XORed_data;
-    reg parity_bit;
 
     always @(posedge clk_based_on_prescale or negedge asy_reset) 
     begin
         if (!asy_reset)
         begin
             counter <= 0;
-            parity_bit <=0;
             XORed_data   <= 0;
             parity_error <= 0;
         end
@@ -33,11 +31,9 @@ module parity_check
 
             else if (counter == 8) 
             begin
-                parity_bit = sampled_data;
-
                 case (parity_type)
-                    1'b0: parity_error <= (XORed_data != parity_bit); // Even parity
-                    1'b1: parity_error <= (XORed_data == parity_bit); // Odd parity
+                    1'b0: parity_error <= (XORed_data != sampled_data); // Even parity
+                    1'b1: parity_error <= (XORed_data == sampled_data); // Odd parity
                 endcase
 
                 counter     <= 0;
